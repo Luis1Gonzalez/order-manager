@@ -16,6 +16,8 @@ const ModalNewEntry = () => {
     setAddNewEntryTitle,
     addNewEntryDescription,
     setAddNewEntryDescription,
+    addNewEntryDescription2,
+    setAddNewEntryDescription2,
     addNewEntryPrice,
     setAddNewEntryPrice,
     newEntry,
@@ -28,18 +30,24 @@ const ModalNewEntry = () => {
     file,
     isLoading,
     photoUrl,
-    setPhotoUrl
+    setPhotoUrl,
   } = useControl();
 
-  
-useEffect(() => {
-    setAddNewEntryTitle("")
-    setAddNewEntryDescription("")
-    setAddNewEntryPrice("")
-    setPhotoUrl("")
-},[])
+  useEffect(() => {
+    setAddNewEntryTitle("");
+    setAddNewEntryDescription("");
+    setAddNewEntryDescription2("");
+    setAddNewEntryPrice("");
+    setPhotoUrl("");
+  }, []);
 
-  console.log({ addNewEntryTitle, addNewEntryDescription, addNewEntryPrice, photoUrl });
+  // console.log({
+  //   addNewEntryTitle,
+  //   addNewEntryDescription,
+  //   addNewEntryDescription2,
+  //   addNewEntryPrice,
+  //   photoUrl,
+  // });
   return (
     <Transition.Root show={isOpenNewEntry} as={Fragment}>
       <Dialog
@@ -111,6 +119,8 @@ useEffect(() => {
                     Agregando Nueva Publicación
                   </Dialog.Title>
 
+                  <UploadImage />
+
                   <form onSubmit={newEntry} className="flex flex-col gap-4">
                     <input
                       type="text"
@@ -123,13 +133,24 @@ useEffect(() => {
                     <textarea
                       name="description"
                       className="border border-gray-400 p-2 w-full h-auto"
-                      placeholder="Escribe el artículo aqui"
+                      placeholder="Escribe el primer parrafo aqui"
                       value={addNewEntryDescription}
                       maxLength={10000}
                       onChange={(e) =>
                         setAddNewEntryDescription(e.target.value)
                       }
-                    ></textarea>
+                    />
+
+                    <textarea
+                      name="description"
+                      className="border border-gray-400 p-2 w-full h-auto"
+                      placeholder="Si tienes, escribe el segundo parrafop aqui"
+                      value={addNewEntryDescription2}
+                      maxLength={10000}
+                      onChange={(e) =>
+                        setAddNewEntryDescription2(e.target.value)
+                      }
+                    />
 
                     <input
                       type="text"
@@ -144,21 +165,14 @@ useEffect(() => {
                     {alert && <Alert msg={msg} />}
                     {success && <Success msg={msg} />}
 
-
                     <input
                       className=" bg-sky-300 p-3 text-white font-bold text-xl hover:text-black hover:bg-sky-400 shadow-xl"
                       type="submit"
                       value="Crear Articulo"
                     />
-
-
-
                   </form>
-                  <div>
-                    <UploadImage />
-                    {isLoading && <Loading />}
 
-                  </div>
+                  {isLoading && <Loading />}
                 </div>
               </div>
             </div>

@@ -15,6 +15,7 @@ if (req.method === "POST") {
         data: {
             tittle: req.body.addNewEntryTitle,
             description: req.body.addNewEntryDescription,
+            description2: req.body.addNewEntryDescription2,
             price: req.body.addNewEntryPrice,
             photoUrl: req.body.photoUrl
         },

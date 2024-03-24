@@ -28,14 +28,14 @@ const CompPublications = () => {
   };
   getDeleteEntry;
 
-  //   console.log(entries);
   return (
     <div className="my-5">
       <div className="flex flex-col gap-2">
         {entries.map((article) => (
           <div key={article.id} className="p-3 flex flex-col gap-3 bg-gray-200">
             <div className="flex justify-end py-3 pr-6">
-              <div className="flex rounded-lg p-2 w-32 h-[100%] gap-6 border-2 border-gray-100 shadow-inner">
+
+              <div className="flex rounded-lg p-2 w-12 h-[100%] gap-6 border-2 border-gray-100 shadow-inner">
                 <button
                   onClick={() => getDeleteEntry(article.id)}
                   className="w-[120px] flex justify-center items-center"
@@ -47,16 +47,6 @@ const CompPublications = () => {
                   />
                 </button>
 
-                <button
-                  // onClick={() => getDeleteEntry(clientx.phone)}
-                  className="w-[120px] flex justify-center items-center"
-                >
-                  <Image
-                    src={editx}
-                    alt="icono de editar"
-                    className="w-[1.5rem]"
-                  />
-                </button>
               </div>
             </div>
 
@@ -65,9 +55,10 @@ const CompPublications = () => {
               <p className="text-lg italic">{article.tittle}</p>
             </div>
 
-            <div className="">
+            <div className="flex flex-col gap-3">
               <p className="font-bold text-xl">Descripción</p>
               <p className="text-lg italic">{article.description}</p>
+              <p className="text-lg italic">{article.description2}</p>
             </div>
             {article.price ? (
               <div>
@@ -81,8 +72,8 @@ const CompPublications = () => {
 <div>
     <img
     src={article.photoUrl}
-    alt="foto subida de articulo."
-    className="w-[100%] md:w-[300px]"
+    alt=""
+    className="w-[300px]"
     
     />
 </div>

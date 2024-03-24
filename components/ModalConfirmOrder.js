@@ -1,39 +1,34 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useControl from "../hooks/useControlProvider";
 import Alert from "@/components/Alert";
+import Loading from "./Loading";
 
-const ModalSignIn = () => {
+const ModalConfirmOrder = () => {
   const {
-    isOpenSignIn,
-    setIsOpenSignIn,
     setNameUser,
     phoneUser,
     setPhoneUser,
     tryAccess,
     alert,
     msg,
+    isLoading,
+    isConfirmOrder,
+    setIsConfirmOrder,
+    closedOrder
   } = useControl();
 
-  const confirmCancelSignIn = () => {
-    setIsOpenSignIn(false);
-  };
+//   const confirmCancelSignIn = () => {
+//     setIsConfirmOrder(false);
+//   };
 
-  // Función para manejar cambios en el input y permitir solo números
-  const handleInputChange = (event) => {
-    const value = event.target.value;
-    const regex = /^[0-9\b]+$/; // Expresión regular para permitir solo números
-    if (value === "" || regex.test(value)) {
-      setPhoneUser(value);
-    }
-  };
 
   return (
-    <Transition.Root show={isOpenSignIn} as={Fragment}>
+    <Transition.Root show={isConfirmOrder} as={Fragment}>
       <Dialog
         as="div"
         className="fixed z-10 inset-0 overflow-y-auto"
-        onClose={() => setIsOpenSignIn(false)}
+        onClose={() => setIsConfirmOrder(false)}
       >
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -71,7 +66,7 @@ const ModalSignIn = () => {
                   type="button"
                   className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={() => {
-                    setIsOpenSignIn(false);
+                    setIsConfirmOrder(false);
                   }}
                 >
                   <span className="sr-only">Cerrar</span>
@@ -96,53 +91,25 @@ const ModalSignIn = () => {
                     as="h3"
                     className="text-2xl text-center leading-6 font-bold text-red-500"
                   >
-                    Sign In
+                    ¿Cerrar Pedido?
                   </Dialog.Title>
 
-                  <div className="flex flex-col items-center justify-center gap-3">
-                    <input
-                      type="text"
-                      className="border border-gray-400 w-[80%] p-3 rounded-lg"
-                      placeholder="Ingresa tu nombre"
-                      name="nameUser"
-                      onChange={(e) => setNameUser(e.target.value)}
-                    />
 
-                    <div className="flex w-[80%] justify-between">
-                      <input
-                        type="text"
-                        className="border border-gray-400 p-3 rounded-lg w-[20%] text-center font-bold text-black"
-                        placeholder="+34"
-                        disabled
-                      />
-
-                      <input
-                        type="text"
-                        className="border border-gray-400 w-[77%] p-3 rounded-lg flex gap-2"
-                        placeholder="Ingresa tu numero de Telefono"
-                        name="phoneUser"
-                        onChange={handleInputChange}
-                        value={phoneUser}
-                        title="Ingresa solo números."
-                        maxLength={9}
-                        minLength={9}
-                      />
-                    </div>
-                  </div>
                   {alert && <Alert msg={msg} />}
+                  {isLoading && <Loading />}
                   <div className=" mb-5 flex flex-col sm:flex-row w-full sm:w-[100%] items-center justify-center gap-3">
                     <button
-                      onClick={tryAccess}
+                      onClick={setIsConfirmOrder(false)}
                       className="w-[80%] border border-green-500 hover:bg-green-100 text-center text-md text-gray-600 font-bold p-2 rounded-md"
                     >
-                      Ingresar
+                      Si
                     </button>
 
                     <button
-                      onClick={confirmCancelSignIn}
+                    //   onClick={confirmCancelSignIn}
                       className="w-[80%] border border-red-500 hover:bg-red-100 text-center text-md text-gray-600 font-bold p-2 rounded-md"
                     >
-                      Cancelar
+                      No
                     </button>
                   </div>
                 </div>
@@ -155,4 +122,4 @@ const ModalSignIn = () => {
   );
 };
 
-export default ModalSignIn;
+export default ModalConfirmOrder;

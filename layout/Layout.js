@@ -1,7 +1,8 @@
 import Articles from "@/components/Articles";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import ModalSignIn from "@/components/ModalSignIn";
+import ModalLogIn from "@/components/ModalLogIn";
+import ModalTicket from "@/components/ModalTicket";
 import SideBar from "@/components/SideBar";
 import Head from "next/head";
 
@@ -29,7 +30,8 @@ export default function Layout() {
         </div>
         <Footer />
       </div>
-      <ModalSignIn />
+      <ModalTicket />
+      <ModalLogIn />
       
     </>
   );

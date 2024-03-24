@@ -17,6 +17,7 @@ const ModalNewOrder = () => {
     setUnity,
     handleRowMore,
     handleRowCancelar,
+    orderTime
   } = useControl();
 
   // Función para manejar cambios en el input y permitir solo números
@@ -138,9 +139,9 @@ const ModalNewOrder = () => {
                         >
                           <option value="">--</option>
                           <option value="gr">gr</option>
-                          <option value="kg">Kg</option>
-                          <option value="euros">€</option>
-                          <option value="uni.">Unidades</option>
+                          <option value="Kg">Kg</option>
+                          <option value="€">€</option>
+                          <option value="Uni.">Unidades</option>
                         </select>
                       </div>
                     </fieldset>

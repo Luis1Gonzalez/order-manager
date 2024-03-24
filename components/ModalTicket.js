@@ -1,66 +1,41 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useControl from "../hooks/useControlProvider";
 import Alert from "@/components/Alert";
-import Success from "./Success";
+import Loading from "./Loading";
 
-const ModalNewClient = () => {
+const ModalTicket = () => {
   const {
-    isOpenNewClient,
-    setIsOpenNewClient,
-    addNewClientName,
-    setAddNewClientName,
-    addNewClientPhone,
-    setAddNewClientPhone,
-    setAlert,
+    isOpenTicket,
+    setIsOpenTicket,
+    setNameUser,
+    phoneUser,
+    setPhoneUser,
+    tryAccess,
     alert,
-    setMsg,
     msg,
-    newClient,
-    ourClients,
-    success,
+    isLoading
   } = useControl();
 
-  const [statusButton, setStatusButton] = useState(false)
+  const confirmCancelSignIn = () => {
+    setIsOpenTicket(false);
+  };
 
   // Función para manejar cambios en el input y permitir solo números
   const handleInputChange = (event) => {
     const value = event.target.value;
     const regex = /^[0-9\b]+$/; // Expresión regular para permitir solo números
     if (value === "" || regex.test(value)) {
-      setAddNewClientPhone(value);
+      setPhoneUser(value);
     }
   };
 
-  useEffect(() => {
-    const verfiPhone = () => {
-      const verifing = ourClients.filter(
-        (filtered) => filtered.phone === addNewClientPhone
-      );
-      if (verifing.length !== 0) {
-        console.log("Ya existe");
-        setAlert(true)
-        setMsg("Este Número ya esta registrado");
-        setStatusButton(true)
-
-
-        setTimeout(() => {
-            setAlert(false)
-            setAddNewClientPhone("")
-            setStatusButton(false)
-        }, 3000);
-
-      }
-    };
-    verfiPhone();
-  }, [addNewClientPhone]);
-
   return (
-    <Transition.Root show={isOpenNewClient} as={Fragment}>
+    <Transition.Root show={isOpenTicket} as={Fragment}>
       <Dialog
         as="div"
         className="fixed z-10 inset-0 overflow-y-auto"
-        onClose={() => setIsOpenNewClient(false)}
+        onClose={() => setIsOpenTicket(false)}
       >
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -98,7 +73,7 @@ const ModalNewClient = () => {
                   type="button"
                   className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={() => {
-                    setIsOpenNewClient(false);
+                    setIsOpenTicket(false);
                   }}
                 >
                   <span className="sr-only">Cerrar</span>
@@ -121,42 +96,58 @@ const ModalNewClient = () => {
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full flex flex-col gap-7">
                   <Dialog.Title
                     as="h3"
-                    className="text-2xl text-center leading-6 font-bold text-sky-400"
+                    className="text-2xl text-center leading-6 font-bold text-red-500"
                   >
-                    Agregando Nuevo Cliente
+                    Ticket
                   </Dialog.Title>
 
-                  <form onSubmit={newClient} className="flex flex-col gap-4">
+                  <div className="flex flex-col items-center justify-center gap-3">
                     <input
                       type="text"
-                      className="border border-gray-400 p-2 w-full uppercase"
-                      placeholder="Ingresa el nombre del cliente"
-                      value={addNewClientName}
-                      onChange={(e) => setAddNewClientName(e.target.value.toUpperCase())}
+                      className="border border-gray-400 w-[80%] p-3 rounded-lg"
+                      placeholder="Ingresa tu nombre"
+                      name="nameUser"
+                      onChange={(e) => setNameUser(e.target.value.toUpperCase())}
                     />
 
-                    <input
-                      type="text"
-                      className="border border-gray-400 p-2 w-full"
-                      placeholder="Ingresa el telefono del cliente"
-                      value={addNewClientPhone}
-                      name="addNewClientPhone"
-                      onChange={handleInputChange}
-                      title="Ingresa solo números."
-                      maxLength={9}
-                      minLength={9}
-                    />
+                    {/* <div className="flex w-[80%] justify-between">
+                      <input
+                        type="text"
+                        className="border border-gray-400 p-3 rounded-lg w-[20%] text-center font-bold text-black"
+                        placeholder="+34"
+                        disabled
+                      />
 
-                    {alert && <Alert msg={msg} />}
-                    {success && <Success msg={msg} />}
+                      <input
+                        type="text"
+                        className="border border-gray-400 w-[77%] p-3 rounded-lg flex gap-2"
+                        placeholder="Ingresa tu numero de Telefono"
+                        name="phoneUser"
+                        onChange={handleInputChange}
+                        value={phoneUser}
+                        title="Ingresa solo números."
+                        maxLength={9}
+                        minLength={9}
+                      />
+                    </div> */}
+                  </div>
+                  {/* {alert && <Alert msg={msg} />}
+                  {isLoading && <Loading />} */}
+                  {/* <div className=" mb-5 flex flex-col sm:flex-row w-full sm:w-[100%] items-center justify-center gap-3">
+                    <button
+                      onClick={tryAccess}
+                      className="w-[80%] border border-green-500 hover:bg-green-100 text-center text-md text-gray-600 font-bold p-2 rounded-md"
+                    >
+                      Ingresar
+                    </button>
 
-                    <input
-                      className=" bg-sky-300 p-3 text-white font-bold text-xl hover:text-black hover:bg-sky-400 shadow-xl"
-                      type="submit"
-                      value="Crear Cliente"
-                      disabled={statusButton}
-                    />
-                  </form>
+                    <button
+                      onClick={confirmCancelSignIn}
+                      className="w-[80%] border border-red-500 hover:bg-red-100 text-center text-md text-gray-600 font-bold p-2 rounded-md"
+                    >
+                      Cancelar
+                    </button>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -167,4 +158,4 @@ const ModalNewClient = () => {
   );
 };
 
-export default ModalNewClient;
+export default ModalTicket;

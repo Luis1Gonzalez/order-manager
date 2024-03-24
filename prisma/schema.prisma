@@ -17,11 +17,12 @@ model Admin {
 }
 
 model Entry {
-  id          Int     @id @default(autoincrement())
-  tittle      String
-  description String
-  price       String?
-  photoUrl    String?
+  id           Int     @id @default(autoincrement())
+  tittle       String
+  description  String
+  description2 String?
+  price        String?
+  photoUrl     String?
 }
 
 model Product {
@@ -30,23 +31,22 @@ model Product {
 }
 
 model OurClient {
-  id     Int     @id @default(autoincrement())
-  name   String
-  phone  String     @unique
-  orders Order[]
+  id    Int    @id @default(autoincrement())
+  name  String
+  phone String @unique
+  // orders Order[]
 }
 
 model Order {
-  id           Int    @id @default(autoincrement())
-  product      String
-  quantity     Float
-  unit         String
-  total        Int
-  creationDay  String
-  creationHour String
-  colletDay    String
-  colletHour   String
-  client       OurClient @relation(fields: [clientPhone], references: [phone])
-  clientPhone  String
-  name        String
+  id             Int     @id @default(autoincrement())
+  createdOrder   Json
+  nameRegistered String
+  nameUsing      String
+  comment        String?
+  creationDay    String
+  creationHour   String
+  // client         OurClient @relation(fields: [clientPhone], references: [phone])
+  clientPhone    String
+  status         Boolean
+  closedTime     String
 }

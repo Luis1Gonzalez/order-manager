@@ -1,15 +1,26 @@
 import useControl from "@/hooks/useControlProvider";
-import React from "react";
+import React, { useEffect } from "react";
 import Confirm from "./ModalConfirm";
-import deletex from "@/assets/delete.svg"
+import deletex from "@/assets/delete.svg";
 import Image from "next/image";
 
 const FrameSelection = () => {
-  const { arrayRow, setArrayRow, setIsOpenConfirm, setMsg, msg, deleteProduct } = useControl();
+  const {
+    arrayRow,
+    setArrayRow,
+    setIsOpenConfirm,
+    setMsg,
+    msg,
+    deleteProduct,
+    comment,
+    setComment,
+    newOrder,
+    creationHour
+  } = useControl();
 
   const cancelOrder = () => {
     setIsOpenConfirm(true);
-    setMsg('¿Quieres eliminar tu pedido?');
+    setMsg("¿Quieres eliminar tu pedido?");
   };
 
   return (
@@ -34,23 +45,32 @@ const FrameSelection = () => {
                     <p className="text-center w-1/4">{array.kind}</p>
                     <p className="text-center w-1/4">{array.quantity}</p>
                     <p className="text-center w-1/4">{array.unity}</p>
-                    
-                    <button 
-                    onClick={() => deleteProduct(array.id)}
-                    className="w-[15%] flex justify-center items-center">
-                    <Image
-                    src={deletex}
-                    alt="icono de borrar"
-                    className="w-[1.5rem] bg-green-300"
-                    />
+
+                    <button
+                      onClick={() => deleteProduct(array.id)}
+                      className="w-[15%] flex justify-center items-center"
+                    >
+                      <Image
+                        src={deletex}
+                        alt="icono de borrar"
+                        className="w-[1.5rem] bg-green-300"
+                      />
                     </button>
                   </li>
                 ))}
               </ol>
             </div>
 
+            <textarea
+              className="border border-gray-500 w-[80%] mt-3 px-3 py-1"
+              placeholder="Agrega tus comentarios"
+              onChange={(e) => setComment(e.target.value)}
+            />
+
             <div className=" mb-10 mt-5 flex flex-col sm:flex-row w-full sm:w-[80%] items-center gap-3">
-              <button className="w-[80%]  border border-green-500 hover:bg-green-100 text-center text-xl text-black font-bold p-3 rounded-md">
+              <button
+              onClick={newOrder}
+              className="w-[80%]  border border-green-500 hover:bg-green-100 text-center text-xl text-black font-bold p-3 rounded-md">
                 Generar Pedido
               </button>
 
@@ -66,9 +86,7 @@ const FrameSelection = () => {
           ""
         )}
       </div>
-      <Confirm
-      msg={msg}
-      />
+      <Confirm msg={msg} />
     </>
   );
 };
