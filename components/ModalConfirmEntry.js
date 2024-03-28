@@ -6,17 +6,12 @@ const ConfirmEntry = ({ msg }) => {
   const {
     isOpenConfirm,
     setIsOpenConfirm,
-    setArrayRow,
     closeDeleteEntry,
     obtaingEntryToDelete,
     setDefiningIdEntryDelete,
-    deletingEntry
+    deletingEntry,
   } = useControl();
 
-  const confirmCancelOrder = () => {
-    setArrayRow([]);
-    setIsOpenConfirm(false)
-  }
 
   useEffect(() => {
     const definingIdEntryDeleteFunct = () => {
@@ -106,7 +101,7 @@ const ConfirmEntry = ({ msg }) => {
                     </button>
 
                     <button
-                    onClick={() => {confirmCancelOrder(), closeDeleteEntry(), deletingEntry()}}
+                    onClick={() => {setIsOpenConfirm(false), closeDeleteEntry(), deletingEntry()}}
                     className="w-[80%] border border-red-500 hover:bg-red-100 text-center text-md text-gray-600 font-bold p-2 rounded-md">
                       Eliminar
                     </button>

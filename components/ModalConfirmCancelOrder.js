@@ -2,30 +2,25 @@ import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useControl from "../hooks/useControlProvider";
 
-const Confirm = ({ msg }) => {
+const ModalConfirmCancelOrder = ({ msg }) => {
   const {
-    isOpenConfirm,
-    setIsOpenConfirm,
     setArrayRow,
-    obtaingClientToDelete,
-    setDefiningPhoneDelete,
-    deletingClient,
     closeDelete,
+    isOpenConfirmCancelOrder,
+    setIsOpenConfirmCancelOrder,
   } = useControl();
 
-  useEffect(() => {
-    const definingPhoneDeleteFunct = () => {
-      setDefiningPhoneDelete(obtaingClientToDelete[0]?.id)
-    } 
-    definingPhoneDeleteFunct()
-  },[obtaingClientToDelete, setDefiningPhoneDelete])
+  const confirmCancelOrder = () => {
+    setArrayRow([]);
+    setIsOpenConfirmCancelOrder(false);
+  };
 
   return (
-    <Transition.Root show={isOpenConfirm} as={Fragment}>
+    <Transition.Root show={isOpenConfirmCancelOrder} as={Fragment}>
       <Dialog
         as="div"
         className="fixed z-10 inset-0 overflow-y-auto"
-        onClose={() => setIsOpenConfirm(false)}
+        onClose={() => setIsOpenConfirmCancelOrder(false)}
       >
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -63,7 +58,7 @@ const Confirm = ({ msg }) => {
                   type="button"
                   className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={() => {
-                    setIsOpenConfirm(false);
+                    setIsOpenConfirmCancelOrder(false);
                   }}
                 >
                   <span className="sr-only">Cerrar</span>
@@ -91,18 +86,22 @@ const Confirm = ({ msg }) => {
                     Advertencia
                   </Dialog.Title>
 
-                  <h1 className="text-xl text-center my-5 text-red-500 font-extrabold">{msg}</h1>
+                  <h1 className="text-xl text-center my-5 text-red-500 font-extrabold">
+                    {msg}
+                  </h1>
 
                   <div className=" mb-5 flex flex-col sm:flex-row w-full sm:w-[100%] items-center justify-center gap-3">
                     <button
-                    onClick={() => setIsOpenConfirm(false)}
-                    className="w-[80%] border border-green-500 hover:bg-green-100 text-center text-md text-gray-600 font-bold p-2 rounded-md">
+                      onClick={() => setIsOpenConfirmCancelOrder(false)}
+                      className="w-[80%] border border-green-500 hover:bg-green-100 text-center text-md text-gray-600 font-bold p-2 rounded-md"
+                    >
                       Continuar
                     </button>
 
                     <button
-                    onClick={() => {setIsOpenConfirm(false), deletingClient(), closeDelete()}}
-                    className="w-[80%] border border-red-500 hover:bg-red-100 text-center text-md text-gray-600 font-bold p-2 rounded-md">
+                      onClick={() => confirmCancelOrder()}
+                      className="w-[80%] border border-red-500 hover:bg-red-100 text-center text-md text-gray-600 font-bold p-2 rounded-md"
+                    >
                       Eliminar
                     </button>
                   </div>
@@ -116,4 +115,5 @@ const Confirm = ({ msg }) => {
   );
 };
 
-export default Confirm;
+export default ModalConfirmCancelOrder;
+

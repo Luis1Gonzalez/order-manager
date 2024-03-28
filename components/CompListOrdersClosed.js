@@ -1,20 +1,15 @@
-"use Client";
 import useControl from "@/hooks/useControlProvider";
 import { useEffect, useState } from "react";
 import waiting from "@/assets/waiting.svg";
 import ok from "@/assets/ok-ok.svg";
 import Image from "next/image";
-import sync from "@/assets/sync.svg";
-import Loading from "./Loading";
 
-const CompListOrdersOpen = () => {
+const CompListOrdersClosed = () => {
   const {
     orders,
     statusOrder,
     sendIdOrderDetails,
     obtaingOrders,
-    isLoading,
-    setIsLoading,
   } = useControl();
   const [selectShowOrderx, setSelectShowOrderx] = useState([]);
 
@@ -23,53 +18,36 @@ const CompListOrdersOpen = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      obtaingOrders();
-    }, 600000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     const catchOpenOrders = () => {
-      const ordersOpen = orders.filter((filtered) => filtered.status === false);
+      const ordersOpen = orders.filter((filtered) => filtered.status === true);
       setSelectShowOrderx(ordersOpen);
     };
     catchOpenOrders();
   }, [orders]);
 
-  const updateNow = () => {
-    obtaingOrders();
-    setIsLoading(true);
+//   useEffect(() => {
+//     const calculateTime = () => {
+//       const currentTime = Date.now()
+//       // console.log(currentTime)
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  };
+// const prob = () => {
+//   const verifyTime = selectShowOrderx.map(order => ((currentTime - order.closedTime) >= 180000))
+//   // console.log(verifyTime)
+// }
+// prob()
+// console.log(closedTime)
+//   }
+//   calculateTime()
+//   }, []);
 
 
   return (
     <div className="flex flex-col items-center mt-5 bg-white">
-      <div className="flex justify-between w-[100%] px-12">
-        <p className="  text-center text-2xl text-black p-8 font-bold w-[90%]">
-          {selectShowOrderx.length === 0
-            ? "No hay Pedidos Pendiente"
-            : `Pedidos Pendiente (${selectShowOrderx.length})`}
-        </p>
-
-        <div className="rounded-full px-3 border border-gray-300 w-[70px] h-[70px] flex justify-center items-center shadow-button shadow-lg shadow-sky-400/80 bg-gray-100">
-          <Image
-            src={sync}
-            width={50}
-            height={50}
-            className="social_shadow cursor-pointer"
-            alt="imagen de altualizar"
-            onClick={updateNow}
-          />
-        </div>
-      </div>
-
-      {isLoading && <Loading />}
-
+      <p className="w-[100%]  text-center text-2xl text-black p-8 font-bold">
+        {selectShowOrderx.length === 0
+          ? "No hay Pedidos"
+          : `Pedidos Preparados (${selectShowOrderx.length})`}
+      </p>
       <div className="w-[100%] p-3 mb-8">
         <div className="flex flex-wrap gap-5 justify-evenly">
           {selectShowOrderx.map((order) => (
@@ -99,4 +77,4 @@ const CompListOrdersOpen = () => {
   );
 };
 
-export default CompListOrdersOpen;
+export default CompListOrdersClosed;

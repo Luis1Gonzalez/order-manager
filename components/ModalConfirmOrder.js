@@ -15,7 +15,10 @@ const ModalConfirmOrder = () => {
     isLoading,
     isConfirmOrder,
     setIsConfirmOrder,
-    closedOrder
+    closedOrder,
+    setIsConfirmFinishOrder,
+    isConfirmFinishOrder,
+    closingOrder
   } = useControl();
 
 //   const confirmCancelSignIn = () => {
@@ -24,11 +27,11 @@ const ModalConfirmOrder = () => {
 
 
   return (
-    <Transition.Root show={isConfirmOrder} as={Fragment}>
+    <Transition.Root show={isConfirmFinishOrder} as={Fragment}>
       <Dialog
         as="div"
         className="fixed z-10 inset-0 overflow-y-auto"
-        onClose={() => setIsConfirmOrder(false)}
+        onClose={() => setIsConfirmFinishOrder(false)}
       >
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -66,7 +69,7 @@ const ModalConfirmOrder = () => {
                   type="button"
                   className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={() => {
-                    setIsConfirmOrder(false);
+                    setIsConfirmFinishOrder(false);
                   }}
                 >
                   <span className="sr-only">Cerrar</span>
@@ -99,14 +102,14 @@ const ModalConfirmOrder = () => {
                   {isLoading && <Loading />}
                   <div className=" mb-5 flex flex-col sm:flex-row w-full sm:w-[100%] items-center justify-center gap-3">
                     <button
-                      onClick={setIsConfirmOrder(false)}
+                      onClick={closingOrder}
                       className="w-[80%] border border-green-500 hover:bg-green-100 text-center text-md text-gray-600 font-bold p-2 rounded-md"
                     >
                       Si
                     </button>
 
                     <button
-                    //   onClick={confirmCancelSignIn}
+                      onClick={() => setIsConfirmFinishOrder(false)}
                       className="w-[80%] border border-red-500 hover:bg-red-100 text-center text-md text-gray-600 font-bold p-2 rounded-md"
                     >
                       No

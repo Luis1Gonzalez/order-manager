@@ -15,6 +15,7 @@ import OrderDetails from "@/components/CompOrderDetails";
 import CompOrderDetails from "@/components/CompOrderDetails";
 import ModalConfirmOrder from "@/components/ModalConfirmOrder";
 
+
 const LayoutAdmin = () => {
   const {
     showClients,
@@ -27,11 +28,10 @@ const LayoutAdmin = () => {
     msg,
     showOrdersDetails,
     setSelectShowOrder,
-    setShowOrdersDetails
+    setShowOrdersDetails,
   } = useControl();
 
   const router = useRouter();
-
   return (
     <>
       <Head>

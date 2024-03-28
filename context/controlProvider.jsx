@@ -58,6 +58,7 @@ const ControlProvider = ({ children }) => {
     const [userUsingNow, setUserUsingNow] = useState({})
     const [creationHour, setCreationHour] = useState("");
     const [creationDay, setCreationDay] = useState("");
+    const [creationTime, setCreationTime] = useState("")
     const [status, setStatus] = useState(false)
     const [orders, setOrders] = useState([])
     const [statusOrder, setStatusOrder] = useState(false);
@@ -67,8 +68,11 @@ const ControlProvider = ({ children }) => {
     const [allDetailsOrders, setAllDetailsOrders] = useState([])
     const [newAllDetailsOrders, setNewAllDetailsOrders] = useState([])
     const [disabledButtons, setDisabledButtons] = useState([]);
-    const [seeList, setSeeList] = useState(false)
+    const [isConfirmFinishOrder, setIsConfirmFinishOrder] = useState(false)
+    const [closedTime, setClosedTime] = useState(null)
+    const [isOpenConfirmCancelOrder, setIsOpenConfirmCancelOrder] = useState(false)
     const [isOpenTicket, setIsOpenTicket] = useState(false)
+    const [idClosingOrder, setIdClosingOrder] = useState("")
 
 
 
@@ -77,8 +81,9 @@ const ControlProvider = ({ children }) => {
     const tryAccess = () => {
         const trying = ourClients.filter((filtered) => filtered.phone === phoneUser);
         setIsLoading(true)
-        setUserUsingNow(trying[0].name)
+
         if (trying.length > 0 && nameUser !== "") {
+            setUserUsingNow(trying[0].name)
             setConfirmAccess(true)
             setIsOpenSignIn(false)
             router.push('/newOrder')
@@ -96,11 +101,14 @@ const ControlProvider = ({ children }) => {
     }
 
     const orderTime = () => {
-        const time = new Date();
-        const now = time.toLocaleTimeString();
-        const date = time.toLocaleDateString();
+        const normalTime = new Date();
+        const time = Date.now()
+        const now = normalTime.toLocaleTimeString();
+        const date = normalTime.toLocaleDateString();
+        setCreationTime(time)
         setCreationHour(now)
         setCreationDay(date)
+        console.log(time)
     }
 
 
@@ -299,21 +307,6 @@ const ControlProvider = ({ children }) => {
         optionSelect()
     }, [selectTypeProduct])
 
-    const showOpenOrders = () => {
-        const verifiying = orders.filter((filtered) => filtered.status === false);
-        setSelectShowOrder(verifiying);
-        setSeeList(true)
-        setShowOrdersDetails(false)
-      };
-    
-    
-      const showClosedOrders = () => {
-        const verifiying = orders.filter((filtered) => filtered.status === true);
-        setSelectShowOrder(verifiying);
-        setSeeList(true)
-        setShowOrdersDetails(false)
-      };
-
     const handleRowMore = (e) => {
         e.preventDefault();
         if (kind === "" || quantity === "" || unity === "") {
@@ -363,6 +356,7 @@ const ControlProvider = ({ children }) => {
                     comment,
                     creationHour,
                     creationDay,
+                    creationTime,
                     status
                 })
 
@@ -393,15 +387,23 @@ const ControlProvider = ({ children }) => {
         }
     };
 
-    const handleStatusOrder = async (id) => {
+    const handleStatusOrder = (id) => {  
+        setIdClosingOrder(id)      
+        setIsConfirmFinishOrder(true)
+        let time = Date.now()
+        setClosedTime(time);
+    }
+
+    const closingOrder = async () => {
         const response = await fetch('/api/order', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                id: id,
-                status: status
+                id: idClosingOrder,
+                status: status,
+                closedTime, closedTime
             })
         })
         const updateData = await response.json();
@@ -409,10 +411,13 @@ const ControlProvider = ({ children }) => {
         obtaingOrders()
         setOrders([])
         setShowOrdersDetails(false)
-        setSeeList(false)
+        setStatus(false)
+        setIsConfirmFinishOrder(false)
+        setClosedTime(null)
     }
 
-    console.log( selectShowOrder )
+
+console.log(closedTime)
     return (
         <ControlContext.Provider
             value={{
@@ -483,9 +488,11 @@ const ControlProvider = ({ children }) => {
                 changeStatusRow,
                 disabledButtons,
                 handleStatusOrder,
-                showOpenOrders,
-                showClosedOrders,
-                seeList, setSeeList
+                closingOrder,
+                isOpenConfirmCancelOrder, setIsOpenConfirmCancelOrder,
+                isConfirmFinishOrder, setIsConfirmFinishOrder,
+                closedTime, setClosedTime,
+
 
             }}
         >

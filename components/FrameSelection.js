@@ -3,12 +3,13 @@ import React, { useEffect } from "react";
 import Confirm from "./ModalConfirm";
 import deletex from "@/assets/delete.svg";
 import Image from "next/image";
+import ModalConfirmCancelOrder from "./ModalConfirmCancelOrder";
 
 const FrameSelection = () => {
   const {
     arrayRow,
     setArrayRow,
-    setIsOpenConfirm,
+    setIsOpenConfirmCancelOrder,
     setMsg,
     msg,
     deleteProduct,
@@ -19,7 +20,7 @@ const FrameSelection = () => {
   } = useControl();
 
   const cancelOrder = () => {
-    setIsOpenConfirm(true);
+    setIsOpenConfirmCancelOrder(true);
     setMsg("¿Quieres eliminar tu pedido?");
   };
 
@@ -86,7 +87,7 @@ const FrameSelection = () => {
           ""
         )}
       </div>
-      <Confirm msg={msg} />
+      <ModalConfirmCancelOrder msg={msg} />
     </>
   );
 };

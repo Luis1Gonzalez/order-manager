@@ -48,5 +48,6 @@ model Order {
   // client         OurClient @relation(fields: [clientPhone], references: [phone])
   clientPhone    String
   status         Boolean
-  closedTime     String
+  creationTime   Int
+  closedTime     Int?
 }

@@ -20,6 +20,7 @@ if (req.method === "POST") {
             creationDay: req.body.creationDay,
             clientPhone: req.body.phoneUser,
             status: req.body.status,
+            creationTime: req.body.creationTime,
         },
     });
 
@@ -29,7 +30,8 @@ if (req.method === "POST") {
 if (req.method === "PUT") {
     const {
       id,
-      status
+      status,
+      closedTime,
     } = req.body;
 
     try {
@@ -37,6 +39,7 @@ if (req.method === "PUT") {
         where: { id },
         data: {
           status,
+          closedTime,
         },
       });
       res.status(200).json(updatedData);

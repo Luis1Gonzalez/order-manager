@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import waiting from "@/assets/waiting.svg";
 import ok from "@/assets/ok-ok.svg";
+import ModalConfirmOrder from "./ModalConfirmOrder";
 
 const CompOrderDetails = () => {
   const {
@@ -11,16 +12,18 @@ const CompOrderDetails = () => {
     disabledButtons,
     handleStatusOrder,
     setStatus,
+    isConfirmFinishOrder,
   } = useControl();
 
   const newAllDetailsOrders = allDetailsOrders.createdOrder;
 
   useEffect(() => {
-    const changingOrderStatus = async () => {
+    const changingOrderStatus = () => {
       setStatus(true);
     };
     changingOrderStatus();
   }, []);
+
 
   return (
     <div className=" flex flex-col gap-5 my-5 px-5 items-center">
@@ -100,6 +103,7 @@ const CompOrderDetails = () => {
           Pedido Completado
         </button>
       ) : null}
+      {isConfirmFinishOrder && <ModalConfirmOrder />}
     </div>
   );
 };
