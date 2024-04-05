@@ -71,8 +71,11 @@ const ControlProvider = ({ children }) => {
     const [isConfirmFinishOrder, setIsConfirmFinishOrder] = useState(false)
     const [closedTime, setClosedTime] = useState(null)
     const [isOpenConfirmCancelOrder, setIsOpenConfirmCancelOrder] = useState(false)
-    const [isOpenTicket, setIsOpenTicket] = useState(false)
     const [idClosingOrder, setIdClosingOrder] = useState("")
+    const [closedShowOrderx, setCloseShowOrderx] = useState([]);
+    const [idDeletingOrders, setIdDeletingOrders] = useState(null);
+    const [isOpenTicket, setIsOpenTicket] = useState(false);
+    const [seeTicket, setSeeTicket] = useState(false);
 
 
 
@@ -108,9 +111,7 @@ const ControlProvider = ({ children }) => {
         setCreationTime(time)
         setCreationHour(now)
         setCreationDay(date)
-        console.log(time)
     }
-
 
 
     // Clients
@@ -364,8 +365,9 @@ const ControlProvider = ({ children }) => {
             setUserUsingNow("")
             setNameUser("")
             setComment("")
-            router.push("/")
+            // router.push("/")
             setPhoneUser("")
+            setIsOpenTicket(true)
 
         } catch (error) {
             console.error(error)
@@ -387,8 +389,8 @@ const ControlProvider = ({ children }) => {
         }
     };
 
-    const handleStatusOrder = (id) => {  
-        setIdClosingOrder(id)      
+    const handleStatusOrder = (id) => {
+        setIdClosingOrder(id)
         setIsConfirmFinishOrder(true)
         let time = Date.now()
         setClosedTime(time);
@@ -414,10 +416,21 @@ const ControlProvider = ({ children }) => {
         setStatus(false)
         setIsConfirmFinishOrder(false)
         setClosedTime(null)
+        setShowOrders(true)
+    }
+
+    const deletingOrders = async () => {
+
+        try {
+            await axios.delete('/api/deleteOrders/deleteOrders');
+        } catch (error) {
+            console.error('Error al eliminar registros:', error);
+            throw error;
+        };
+
     }
 
 
-console.log(closedTime)
     return (
         <ControlContext.Provider
             value={{
@@ -492,8 +505,10 @@ console.log(closedTime)
                 isOpenConfirmCancelOrder, setIsOpenConfirmCancelOrder,
                 isConfirmFinishOrder, setIsConfirmFinishOrder,
                 closedTime, setClosedTime,
-
-
+                closedShowOrderx, setCloseShowOrderx,
+                idDeletingOrders, setIdDeletingOrders,
+                deletingOrders,
+                seeTicket, setSeeTicket
             }}
         >
             {children}

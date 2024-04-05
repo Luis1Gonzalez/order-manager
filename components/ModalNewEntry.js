@@ -41,13 +41,6 @@ const ModalNewEntry = () => {
     setPhotoUrl("");
   }, []);
 
-  // console.log({
-  //   addNewEntryTitle,
-  //   addNewEntryDescription,
-  //   addNewEntryDescription2,
-  //   addNewEntryPrice,
-  //   photoUrl,
-  // });
   return (
     <Transition.Root show={isOpenNewEntry} as={Fragment}>
       <Dialog

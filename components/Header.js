@@ -17,11 +17,6 @@ const Header = () => {
         </h1>
       </div>
 
-      <nav className="bg-gray-100 text-gray-700 flex justify-evenly h-12 items-center xl:text-2xl font-bold">
-        <p>Inicio</p>
-        <p>Quienes Somos</p>
-        <p>Galería</p>
-      </nav>
     </>
   );
 };

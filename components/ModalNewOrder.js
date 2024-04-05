@@ -3,7 +3,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import useControl from "../hooks/useControlProvider";
 import Alert from "@/components/Alert";
 
+
 const ModalNewOrder = () => {
+
   const {
     isOpen,
     setIsOpen,
@@ -148,20 +150,20 @@ const ModalNewOrder = () => {
 
                     {alert && <Alert msg={msg} />}
 
-                    <div className="flex justify-evenly flex-wrap gap-2">
-                      <button
-                        className="w-[30%] sm:w-1/4  border border-green-500 hover:bg-green-100 text-black rounded-xl py-1"
-                        onClick={handleRowMore}
-                      >
-                        Más
-                      </button>
-                      <button
-                        className="w-[30%] sm:w-1/4  border border-red-500 hover:bg-red-100 text-black rounded-xl py-1"
-                        onClick={handleRowCancelar}
-                      >
-                        Cancelar
-                      </button>
-                    </div>
+                    <div className=" mb-5 flex flex-col sm:flex-row w-full sm:w-[100%] items-center justify-center gap-3">
+                    <button
+                    onClick={handleRowMore}
+                    className="w-[80%] border border-green-500 hover:bg-green-100 text-center text-md text-gray-600 font-bold p-2 rounded-md">
+                      Más
+                    </button>
+
+                    <button
+                    onClick={handleRowCancelar}
+                    className="w-[80%] border border-red-500 hover:bg-red-100 text-center text-md text-gray-600 font-bold p-2 rounded-md">
+                      Cancelar
+                    </button>
+                  </div>
+
                   </form>
                 </div>
               </div>

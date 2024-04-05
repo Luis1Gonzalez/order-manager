@@ -29,9 +29,11 @@ const LayoutAdmin = () => {
     showOrdersDetails,
     setSelectShowOrder,
     setShowOrdersDetails,
+    statusOrder,
+    setStatusOrder,
   } = useControl();
-
   const router = useRouter();
+
   return (
     <>
       <Head>
@@ -43,7 +45,7 @@ const LayoutAdmin = () => {
         <div className="flex bg-gray-200 font-bold border border-blue-300 shadow-2xl items-center [w-100%] h-[50px]">
           <div
             onClick={() => {
-              router.push("/"), setShowClients(false);
+              router.push("/"); setShowClients(false); setStatusOrder(false)
             }}
             className="flex items-center justify-center w-[15%] sm:w-[10%] cursor-pointer"
           >
@@ -77,6 +79,7 @@ const LayoutAdmin = () => {
               setShowEntries(false);
               setSelectShowOrder([]);
               setShowOrdersDetails(false)
+              setStatusOrder(false)
             }}
             className="border border-blue-300 p-3 bg-sky-100 w-[40%] rounded-xl text-xl font-bold hover:bg-sky-300 hover:text-white shadow-xl"
           >

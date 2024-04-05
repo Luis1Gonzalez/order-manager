@@ -38,7 +38,6 @@ const ModalNewClient = () => {
         (filtered) => filtered.phone === addNewClientPhone
       );
       if (verifing.length !== 0) {
-        console.log("Ya existe");
         setAlert(true)
         setMsg("Este Número ya esta registrado");
         setStatusButton(true)

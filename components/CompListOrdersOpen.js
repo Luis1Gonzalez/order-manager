@@ -56,7 +56,7 @@ const CompListOrdersOpen = () => {
             : `Pedidos Pendiente (${selectShowOrderx.length})`}
         </p>
 
-        <div className="rounded-full px-3 border border-gray-300 w-[70px] h-[70px] flex justify-center items-center shadow-button shadow-lg shadow-sky-400/80 bg-gray-100">
+        <div className="rounded-full p-3 border border-gray-300 w-[70px] h-[60px] sm:h-[70px] flex justify-center items-center shadow-button shadow-lg shadow-sky-400/80 bg-gray-100">
           <Image
             src={sync}
             width={50}

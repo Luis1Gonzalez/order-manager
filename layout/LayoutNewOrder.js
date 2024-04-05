@@ -1,11 +1,16 @@
 import FrameSelection from "@/components/FrameSelection";
 import Header from "@/components/Header";
 import ModalNewOrder from "@/components/ModalNewOrder";
+import ModalTicket from "@/components/ModalTicket";
 import useControl from "@/hooks/useControlProvider";
 import Head from "next/head";
+import Image from "next/image";
+import exit from '@/assets/exit.svg';
+import { useRouter } from "next/router";
 
 export default function LayoutNewOrder() {
-  const { setSelectTypeProduct, setIsOpen, nameUser, userUsingNow } =
+  const router = useRouter();
+  const { setSelectTypeProduct, setIsOpen, nameUser, userUsingNow, isOpenTicket, setIsOpenTicket } =
     useControl();
 
   return (
@@ -20,6 +25,7 @@ export default function LayoutNewOrder() {
           <Header />
         </header>
         
+        <div className="flex justify-between pr-8">
         <div className="p-5  font-bold">
           <p>
             Nombre de Registro:{" "}
@@ -33,6 +39,16 @@ export default function LayoutNewOrder() {
               {nameUser}
             </span>
           </p>
+        </div>
+
+        <Image
+        onClick={() => router.push("/")}
+        src={exit}
+        width={30}
+        height={30}
+        alt="icono de salir"
+        className="cursor-pointer"
+        />
         </div>
 
         <p className="mt-10 text-2xl text-center font-bold text-black">
@@ -83,8 +99,8 @@ export default function LayoutNewOrder() {
         </div>
 
         <ModalNewOrder />
-
         <FrameSelection />
+        {isOpenTicket && <ModalTicket />}
       </div>
     </>
   );
