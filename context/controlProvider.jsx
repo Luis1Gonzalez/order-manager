@@ -1,5 +1,5 @@
 
-"use Client"
+// "use Client"
 import { createContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/router";
@@ -89,7 +89,7 @@ const ControlProvider = ({ children }) => {
             setUserUsingNow(trying[0].name)
             setConfirmAccess(true)
             setIsOpenSignIn(false)
-            router.push('/newOrder')
+            router.push('/neworder')
             setIsLoading(false)
         } else if (trying.length === 0 || nameUser === "" || phoneUser === "") {
             setConfirmAccess(false)
