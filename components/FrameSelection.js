@@ -24,6 +24,8 @@ const FrameSelection = () => {
     setMsg("¿Quieres eliminar tu pedido?");
   };
 
+console.log({arrayRow, comment})
+
   return (
     <>
       <div>

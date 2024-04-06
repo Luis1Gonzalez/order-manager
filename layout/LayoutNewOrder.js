@@ -10,8 +10,10 @@ import { useRouter } from "next/router";
 
 export default function LayoutNewOrder() {
   const router = useRouter();
-  const { setSelectTypeProduct, setIsOpen, nameUser, userUsingNow, isOpenTicket, setIsOpenTicket } =
+  const { setSelectTypeProduct, setIsOpen, nameUser, userUsingNow, isOpenTicket } =
     useControl();
+
+console.log({nameUser, userUsingNow, isOpenTicket})
 
   return (
     <>
@@ -100,7 +102,7 @@ export default function LayoutNewOrder() {
 
         <ModalNewOrder />
         <FrameSelection />
-        {isOpenTicket && <ModalTicket />}
+        {/* {isOpenTicket && <ModalTicket />} */}
       </div>
     </>
   );
