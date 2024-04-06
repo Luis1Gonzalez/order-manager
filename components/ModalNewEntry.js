@@ -1,4 +1,5 @@
-"use client"; //Esto es para que el navegador sepa que debe procesar esta pagina del lado del cliente y no del servidor.
+// "use client"; 
+//Esto es para que el navegador sepa que debe procesar esta pagina del lado del cliente y no del servidor.
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useControl from "../hooks/useControlProvider";
