@@ -13,8 +13,6 @@ export default function LayoutNewOrder() {
   const { setSelectTypeProduct, setIsOpen, nameUser, userUsingNow, isOpenTicket } =
     useControl();
 
-console.log({nameUser, userUsingNow, isOpenTicket})
-
   return (
     <>
       <Head>
@@ -102,7 +100,7 @@ console.log({nameUser, userUsingNow, isOpenTicket})
 
         <ModalNewOrder />
         <FrameSelection />
-        {/* {isOpenTicket && <ModalTicket />} */}
+        {isOpenTicket && <ModalTicket />}
       </div>
     </>
   );

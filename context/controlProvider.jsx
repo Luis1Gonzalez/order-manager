@@ -89,7 +89,7 @@ const ControlProvider = ({ children }) => {
             setUserUsingNow(trying[0].name)
             setConfirmAccess(true)
             setIsOpenSignIn(false)
-            router.push('/neworder')
+            router.push('/newOrderx')
             setIsLoading(false)
         } else if (trying.length === 0 || nameUser === "" || phoneUser === "") {
             setConfirmAccess(false)
