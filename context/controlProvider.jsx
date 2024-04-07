@@ -55,7 +55,7 @@ const ControlProvider = ({ children }) => {
     const [unity, setUnity] = useState("")
     const [comment, setComment] = useState("")
     const [arrayRow, setArrayRow] = useState([])
-    const [userUsingNow, setUserUsingNow] = useState({})
+    const [userUsingNow, setUserUsingNow] = useState("")
     const [creationHour, setCreationHour] = useState("");
     const [creationDay, setCreationDay] = useState("");
     const [creationTime, setCreationTime] = useState("")
@@ -76,7 +76,7 @@ const ControlProvider = ({ children }) => {
     const [idDeletingOrders, setIdDeletingOrders] = useState(null);
     const [isOpenTicket, setIsOpenTicket] = useState(false);
     const [seeTicket, setSeeTicket] = useState(false);
-
+console.log(userUsingNow)
 
 
 
