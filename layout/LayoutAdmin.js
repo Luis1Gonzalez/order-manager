@@ -29,7 +29,7 @@ const LayoutAdmin = () => {
     showOrdersDetails,
     setSelectShowOrder,
     setShowOrdersDetails,
-    statusOrder,
+    setAccessAdminAllowed,
     setStatusOrder,
   } = useControl();
   const router = useRouter();
@@ -45,7 +45,7 @@ const LayoutAdmin = () => {
         <div className="flex bg-gray-200 font-bold border border-blue-300 shadow-2xl items-center [w-100%] h-[50px]">
           <div
             onClick={() => {
-              router.push("/"); setShowClients(false); setStatusOrder(false)
+              router.push("/"); setShowClients(false); setStatusOrder(false); setAccessAdminAllowed(false)
             }}
             className="flex items-center justify-center w-[15%] sm:w-[10%] cursor-pointer"
           >

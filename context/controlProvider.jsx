@@ -19,6 +19,10 @@ const ControlProvider = ({ children }) => {
     const [isOpenConfirm, setIsOpenConfirm] = useState(false)
     const [isOpenSignIn, setIsOpenSignIn] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [accessAdminAllowed, setAccessAdminAllowed] = useState(false)
+    const [passAdmin, setPassAdmin] = useState([])
+    const [passUserAdmin, setPassUserAdmin] = useState("")
+
 
     // Clients
     const [nameUser, setNameUser] = useState("")
@@ -76,11 +80,37 @@ const ControlProvider = ({ children }) => {
     const [idDeletingOrders, setIdDeletingOrders] = useState(null);
     const [isOpenTicket, setIsOpenTicket] = useState(false);
     const [seeTicket, setSeeTicket] = useState(false);
-console.log(userUsingNow)
-
 
 
     // Generals
+    useEffect(() => {
+        const obtaingPass = async () => {
+            try {
+                const { data } = await axios('api/pass')
+                setPassAdmin(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        obtaingPass()
+    }, [])
+
+    const tryAccessAdmin = () => {
+        const trying = passAdmin.filter((filtered) => filtered.password === passUserAdmin);
+        setIsLoading(true)
+
+        if (trying.length > 0 && passUserAdmin !== "") {
+            router.push('/admin')
+        } else if (trying.length === 0 || passUserAdmin === "") {
+            setMsg("Debes ingresar una constraseña valida")
+            setAlert(true)
+            setIsLoading(false)
+            setTimeout(() => {
+                setAlert(false)
+            }, 2000);
+        }
+    }
+
     const tryAccess = () => {
         const trying = ourClients.filter((filtered) => filtered.phone === phoneUser);
         setIsLoading(true)
@@ -93,7 +123,6 @@ console.log(userUsingNow)
             setIsLoading(false)
         } else if (trying.length === 0 || nameUser === "" || phoneUser === "") {
             setConfirmAccess(false)
-
             setMsg("Revisa los datos que estas ingresando, ambos son obligatorios")
             setAlert(true)
             setIsLoading(false)
@@ -427,9 +456,7 @@ console.log(userUsingNow)
             console.error('Error al eliminar registros:', error);
             throw error;
         };
-
     }
-
 
     return (
         <ControlContext.Provider
@@ -508,7 +535,10 @@ console.log(userUsingNow)
                 closedShowOrderx, setCloseShowOrderx,
                 idDeletingOrders, setIdDeletingOrders,
                 deletingOrders,
-                seeTicket, setSeeTicket
+                seeTicket, setSeeTicket,
+                accessAdminAllowed, setAccessAdminAllowed,
+                tryAccessAdmin,
+                passUserAdmin, setPassUserAdmin
             }}
         >
             {children}

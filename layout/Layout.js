@@ -1,11 +1,16 @@
 import Articles from "@/components/Articles";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import ModalAccessAdmin from "@/components/ModalAccessAdmin";
 import ModalLogIn from "@/components/ModalLogIn";
 import SideBar from "@/components/SideBar";
+import useControl from "@/hooks/useControlProvider";
 import Head from "next/head";
 
 export default function Layout() {
+
+const { accessAdminAllowed, setAccessAdminAllowed } = useControl()
+
   return (
     <>
       <Head>
@@ -30,6 +35,7 @@ export default function Layout() {
         <Footer />
       </div>
       <ModalLogIn />
+      {accessAdminAllowed && <ModalAccessAdmin />}
       
     </>
   );

@@ -8,8 +8,12 @@ import maps from "@/assets/maps-black.svg";
 import Link from "next/link";
 import dev from "@/assets/dev.svg";
 import admin from "@/assets/admin.svg";
+import useControl from "@/hooks/useControlProvider";
 
 const Footer = () => {
+
+const { accessAdminAllowed, setAccessAdminAllowed } = useControl()
+
   return (
     <div className=" bg-gray-200 p-3 w-100 py-5 flex flex-col gap-5">
       <div className="mt-2 text-center">
@@ -27,9 +31,11 @@ const Footer = () => {
             alt="logo admin"
             className="w-[30px] sm:w-[40px]"
           />
-          <Link href={"/admin"} className="text-blue-500 font-bold italic">
+          <button
+          onClick={() => setAccessAdminAllowed(true)}
+          className="text-blue-500 font-bold italic">
             Administración
-          </Link>
+          </button>
         </div>
 
         <div className="flex gap-3 items-center">
