@@ -15,6 +15,6 @@ export default async function handler(req, res) {
         phone: req.body.addNewClientPhone,
       },
     });
-    resizeTo.status(200).json(currentClient);
+    res.status(200).json(currentClient);
   }
 }

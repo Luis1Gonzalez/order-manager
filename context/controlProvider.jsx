@@ -97,9 +97,9 @@ const ControlProvider = ({ children }) => {
 
     const tryAccessAdmin = () => {
         const trying = passAdmin.filter((filtered) => filtered.password === passUserAdmin);
-        setIsLoading(true)
 
         if (trying.length > 0 && passUserAdmin !== "") {
+            setIsLoading(true)
             router.push('/admin')
         } else if (trying.length === 0 || passUserAdmin === "") {
             setMsg("Debes ingresar una constraseña valida")
@@ -148,6 +148,7 @@ const ControlProvider = ({ children }) => {
         const obtaingClients = async () => {
             try {
                 const { data } = await axios('api/ourClient')
+                console.log(data)
                 setOurClients(data)
             } catch (error) {
                 console.log(error)
