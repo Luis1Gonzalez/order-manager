@@ -39,7 +39,7 @@ const CompListOrdersOpen = () => {
 
   const updateNow = () => {
     obtaingOrders();
-    setIsLoading(true);
+
 
     setTimeout(() => {
       setIsLoading(false);

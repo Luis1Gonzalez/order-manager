@@ -113,9 +113,10 @@ const ControlProvider = ({ children }) => {
 
     const tryAccess = () => {
         const trying = ourClients.filter((filtered) => filtered.phone === phoneUser);
-        setIsLoading(true)
+        
 
         if (trying.length > 0 && nameUser !== "") {
+            setIsLoading(true)
             setUserUsingNow(trying[0].name)
             setConfirmAccess(true)
             setIsOpenSignIn(false)
