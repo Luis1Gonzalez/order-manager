@@ -8,13 +8,26 @@ export default async function handler(req, res) {
   res.status(200).json(client);
 
   // Creando nuevos clientes
+  // if (req.method === "POST") {
+  //   const currentClient = await prisma.ourClient.create({
+  //     data: {
+  //       name: req.body.addNewClientName,
+  //       phone: req.body.addNewClientPhone,
+  //     },
+  //   });
+  //   res.status(200).json(currentClient);
+  // }
+
   if (req.method === "POST") {
     const currentClient = await prisma.ourClient.create({
-      data: {
-        name: req.body.addNewClientName,
-        phone: req.body.addNewClientPhone,
-      },
+        data: {
+            name: req.body.addNewClientName,
+            phone: req.body.addNewClientPhone
+        },
     });
-    res.status(200).json(currentClient);
-  }
+
+    res.status(200).json(currentClient)
+}
+
+
 }

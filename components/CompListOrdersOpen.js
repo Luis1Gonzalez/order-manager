@@ -35,15 +35,15 @@ const CompListOrdersOpen = () => {
       setSelectShowOrderx(ordersOpen);
     };
     catchOpenOrders();
-  }, [orders]);
+
+    setTimeout(() => {
+      setIsLoading(false)
+  }, 2000);
+
+  }, [orders, setIsLoading]);
 
   const updateNow = () => {
     obtaingOrders();
-
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
   };
 
 
