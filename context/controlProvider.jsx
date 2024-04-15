@@ -149,7 +149,6 @@ const ControlProvider = ({ children }) => {
         const obtaingClients = async () => {
             try {
                 const { data } = await axios('api/ourClient')
-                console.log(data)
                 setOurClients(data)
             } catch (error) {
                 console.log(error)
@@ -306,6 +305,7 @@ const ControlProvider = ({ children }) => {
         try {
             const { data } = await axios('api/order')
             setOrders(data)
+            console.log(data)
         } catch (error) {
             console.log(error)
         }
