@@ -13,7 +13,7 @@ const Header = () => {
         />
 
         <h1 className="tittle text-yellow-300 font-bold tracking-widest">
-          Carneceria de Torrero
+          La Despensa de las Delicias
         </h1>
       </div>
 
