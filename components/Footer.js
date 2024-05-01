@@ -18,7 +18,7 @@ const { accessAdminAllowed, setAccessAdminAllowed } = useControl()
     <div className=" bg-gray-200 p-3 w-100 py-5 flex flex-col gap-5">
       <div className="mt-2 text-center">
         <h1 className="tittle text-gray-600 text-2xl font-bold tracking-widest text-center">
-          La Despensa de las Delicias
+        El Bodegón de las Carnes
         </h1>
 
         <p>Todos los derechos reservados &copy; 2024</p>

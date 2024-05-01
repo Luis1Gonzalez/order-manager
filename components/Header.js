@@ -13,7 +13,7 @@ const Header = () => {
         />
 
         <h1 className="tittle text-yellow-300 font-bold tracking-widest">
-          La Despensa de las Delicias
+          El Bodegón de las Carnes
         </h1>
       </div>
 

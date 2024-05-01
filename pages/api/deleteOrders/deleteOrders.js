@@ -25,32 +25,3 @@ export default async function handler(req, res) {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-// import { PrismaClient } from "@prisma/client";
-
-// export default async function handler(req, res) {
-//     const prisma = new PrismaClient()
-
-//     const { id } = req.query
-
-//     try {
-//     await prisma.order.delete({
-//         where: {
-//             id: parseInt(id)
-//         }
-//     })
-// } catch (error) {
-//     console.log(`Error  en api al eliminar registro con id ${id}: ${error.message}`)
-//     return res.status(500).json(error)
-// }
-// }

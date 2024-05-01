@@ -6,6 +6,7 @@ import call from "@/assets/call.svg";
 import Image from "next/image";
 import direccion from "@/assets/direccion.jpg";
 import useControl from "@/hooks/useControlProvider";
+import qr from '@/assets/qr.jpeg'
 
 const SideBar = () => {
 
@@ -61,6 +62,15 @@ const { setIsOpenSignIn } = useControl()
         </p>
         <Image className="cursor-pointer" src={direccion} alt="dirección" />
       </div>
+
+<Image 
+src={qr}
+alt="codigo qr para acceder a la pagina como suario."
+width={230}
+height={230}
+className="mb-6 shadow-xl"
+/>
+
     </div>
     </div>
   );
