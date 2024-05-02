@@ -7,7 +7,8 @@ const Header = () => {
     <>
       <div className="flex flex-col items-center justify-center w-[100%] py-3 gap-3 sm:flex-row sm:justify-evenly text-lg sm:text-2xl flex-wrap lg:text-3xl xl:text-4xl">
         <Image
-          className="w-[10rem] h-[10rem]"
+          width={170}
+          height={170}
           src={logo}
           alt="logo de despensa de las delicias"
         />
