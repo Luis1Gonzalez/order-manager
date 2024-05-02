@@ -13,7 +13,7 @@ const SideBar = () => {
 const { setIsOpenSignIn } = useControl()
 
   return (
-    <div className="bg-gray-200 h-[100%] rounded-2xl pt-5">
+    <div className="bg-gray-200 h-[100%] rounded-2xl py-5">
     <div className="flex flex-col gap-12 justify-center items-center">
       <button
       onClick={() => setIsOpenSignIn(true)}
@@ -68,7 +68,6 @@ src={qr}
 alt="codigo qr para acceder a la pagina como suario."
 width={230}
 height={230}
-className="mb-6 shadow-xl"
 />
 
     </div>
