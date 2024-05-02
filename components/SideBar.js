@@ -60,7 +60,12 @@ const { setIsOpenSignIn } = useControl()
         <p className="text-center text-2xl xl:text-xl font-semibold">
           Ubicación
         </p>
-        <Image className="cursor-pointer" src={direccion} alt="dirección" />
+        <Image className="cursor-pointer" 
+        src={direccion} 
+        width={681}
+        height={333}
+        alt="dirección" 
+        />
       </div>
 
 <Image 
@@ -68,6 +73,7 @@ src={qr}
 alt="codigo qr para acceder a la pagina como suario."
 width={230}
 height={230}
+className="shadow-xl"
 />
 
     </div>
