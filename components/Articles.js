@@ -1,7 +1,6 @@
 import useControl from "@/hooks/useControlProvider";
-import Image from "next/image";
+// import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import chuletas from "@/assets/chuleta-aguja.jpg";
 
 const Articles = () => {
   const { obtainEntries, entries } = useControl();
