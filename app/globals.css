@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  /* Granate: el color de la marca (logo) */
+  --color-brand-50: #fdf3f2;
+  --color-brand-100: #fbe4e1;
+  --color-brand-200: #f6cdc8;
+  --color-brand-300: #eea79f;
+  --color-brand-400: #e2766a;
+  --color-brand-500: #d14f41;
+  --color-brand-600: #b83a2c;
+  --color-brand-700: #9a2e23;
+  --color-brand-800: #7f2a21;
+  --color-brand-900: #6a2820;
+  --color-brand-950: #3a100c;
+
+  /* Crema y tinta cálida */
+  --color-cream-50: #fdfbf7;
+  --color-cream-100: #f8f3ea;
+  --color-cream-200: #efe5d4;
+  --color-cream-300: #e2d2b8;
+  --color-ink-900: #2b1f1a;
+  --color-ink-700: #4d3c34;
+  --color-ink-500: #7a685e;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-cream-50 text-ink-900 antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+}

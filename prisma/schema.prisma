@@ -1,52 +1,100 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+  // Supabase: DATABASE_URL = conexión con pooler (puerto 6543), la que usa la app.
+  //           DIRECT_URL   = conexión directa (puerto 5432), la que usan las migraciones.
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Admin {
-  id       Int    @id @default(autoincrement())
-  name     String
-  password String
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
 }
 
-model Entry {
-  id           Int     @id @default(autoincrement())
-  tittle       String
-  description  String
-  description2 String?
-  price        String?
-  photoUrl     String?
+model Client {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  sortOrder Int       @default(0)
+  products  Product[]
 }
 
 model Product {
-  id   Int    @id @default(autoincrement())
-  name String
+  id         Int         @id @default(autoincrement())
+  name       String
+  active     Boolean     @default(true)
+  categoryId Int
+  category   Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[]
+
+  @@unique([categoryId, name])
 }
 
-model OurClient {
-  id    Int    @id @default(autoincrement())
-  name  String
-  phone String
+enum OrderStatus {
+  PENDIENTE
+  LISTO
+  ENTREGADO
+  CANCELADO
+}
 
+enum Unit {
+  KG
+  G
+  UNIDAD
 }
 
 model Order {
-  id             Int     @id @default(autoincrement())
-  createdOrder   Json
-  nameRegistered String
-  nameUsing      String
-  comment        String?
-  creationDay    String
-  creationHour   String
-  clientPhone    String
-  status         Boolean
-  creationTime   Int
-  closedTime     Int?
+  id          Int         @id @default(autoincrement())
+  clientId    Int
+  client      Client      @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  /// Persona que hace o recoge el pedido (puede ser distinta al titular)
+  contactName String
+  comment     String?
+  status      OrderStatus @default(PENDIENTE)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  closedAt    DateTime?
+  items       OrderItem[]
+
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id           Int      @id @default(autoincrement())
+  orderId      Int
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    Int?
+  product      Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  /// Copia del nombre en el momento del pedido, por si luego se edita o borra el producto
+  productName  String
+  categoryName String
+  quantity     Decimal  @db.Decimal(10, 3)
+  unit         Unit
+  prepared     Boolean  @default(false)
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  details     String?
+  price       String?
+  imageUrl    String?
+  imageId     String?
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
 }

@@ -1,40 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Gestor de pedidos · El Bodegón de las Carnes
 
-## Getting Started
+Web para que los clientes registrados encarguen carne por internet y la carnicería gestione los pedidos desde un panel.
 
-First, run the development server:
+- **Clientes**: entran con su teléfono registrado, arman el pedido por categorías (kg, g o unidades), lo confirman y reciben un ticket imprimible. Ven el estado de sus últimos pedidos.
+- **Panel** (`/admin`): pedidos con auto-refresco, checklist de preparación, estados *Pendiente → Listo → Entregado / Cancelado*, gestión de clientes, catálogo editable y publicaciones con imagen.
+
+## Stack
+
+Next.js 15 (App Router, Server Actions) · React 19 · Tailwind CSS 4 · Prisma 6 + PostgreSQL · Zod · sesiones JWT en cookie httpOnly (`jose`) · contraseñas con `bcryptjs` · Cloudinary.
+
+## Puesta en marcha (local)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env            # y rellena los valores
+npx prisma dev --name order-manager --detach   # Postgres local sin Docker (o usa uno propio)
+npm run db:migrate              # crea las tablas
+npm run db:seed                 # crea el admin y el catálogo inicial
+npm run dev                     # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> Con `prisma dev`, añade `&pgbouncer=true&connection_limit=1` al final de `DATABASE_URL`, porque ese servidor local solo admite una conexión. Pon en `DIRECT_URL` la misma URL sin esos parámetros.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Base de datos en Supabase
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+1. Crea un proyecto en [supabase.com](https://supabase.com). Guarda la contraseña de la base de datos.
+2. Pulsa **Connect** → **ORMs** → **Prisma** y copia las dos URLs:
+   - `DATABASE_URL`: con pooler, puerto **6543**, terminada en `?pgbouncer=true&connection_limit=1`.
+   - `DIRECT_URL`: puerto **5432**, para las migraciones.
+3. Pon ambas en tu `.env` y crea las tablas y los datos iniciales:
+   ```bash
+   npm run db:deploy
+   npm run db:seed
+   ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+> Las tablas se crean con Prisma. No uses la API REST de Supabase (`anon key`) con estas tablas: la app accede siempre desde el servidor.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Despliegue (Vercel)
 
-## Learn More
+1. Importa el repositorio en Vercel.
+2. Define las variables de `.env.example`: `DATABASE_URL`, `DIRECT_URL`, `SESSION_SECRET` y las de Cloudinary.
+3. Cada vez que cambie el esquema, aplica las migraciones con `npm run db:deploy` contra Supabase.
 
-To learn more about Next.js, take a look at the following resources:
+## Estructura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/
+  page.js                 Portada pública
+  pedido/                 Crear pedido y ticket (requiere sesión de cliente)
+  admin/login/            Acceso del administrador
+  admin/(panel)/          Pedidos, clientes, catálogo, publicaciones
+  actions/                Server Actions (toda la lógica que escribe en la BD)
+components/               UI (ui/), web pública (site/), pedido (order/), panel (admin/)
+lib/                      BD, sesiones, validaciones, Cloudinary, datos del negocio (site.js)
+prisma/                   Esquema, migraciones y seed
+middleware.js             Protege /admin y /pedido
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Los datos del negocio (dirección, teléfono, redes, horario) están en [`lib/site.js`](lib/site.js).
 
-## Deploy on Vercel
+## Seguridad
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Las sesiones van firmadas y en cookies httpOnly. Cada Server Action vuelve a comprobar la sesión: el middleware no es la única barrera.
+- La contraseña del admin se guarda con hash bcrypt y nunca llega al navegador.
+- Todas las entradas se validan con Zod en el servidor. Un cliente solo puede ver sus propios pedidos.
+- Las imágenes se suben a Cloudinary desde el servidor, con firma. El API secret nunca sale del servidor.
+- **No subas nunca `.env` al repositorio**. Está en `.gitignore`.
