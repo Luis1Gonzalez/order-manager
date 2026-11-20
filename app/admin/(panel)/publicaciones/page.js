@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Eye, EyeOff, Newspaper, Trash2 } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
-import { cloudinaryEnabled } from "@/lib/cloudinary";
+import { storageEnabled } from "@/lib/storage";
 import { cn, formatDate } from "@/lib/utils";
 import { deletePost, togglePostPublished } from "@/app/actions/admin";
 import { PageHeader } from "@/components/admin/PageHeader";
@@ -22,7 +22,7 @@ export default async function PublicacionesPage() {
 
       <Card className="mb-8 p-5 sm:p-6">
         <h2 className="mb-4 text-lg font-semibold">Nueva publicación</h2>
-        <PostForm imagesEnabled={cloudinaryEnabled} />
+        <PostForm imagesEnabled={storageEnabled} />
       </Card>
 
       {posts.length === 0 ? (

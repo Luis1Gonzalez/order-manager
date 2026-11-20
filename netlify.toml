@@ -1,0 +1,11 @@
+# Netlify detecta Next.js automáticamente y usa su adaptador oficial.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Funciones de Netlify (la limpieza nocturna del modo demo vive en netlify/functions)
+[functions]
+  directory = "netlify/functions"

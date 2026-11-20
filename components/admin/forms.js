@@ -93,7 +93,7 @@ export function PostForm({ imagesEnabled }) {
           ) : (
             <>
               <ImagePlus className="mb-1 size-7" aria-hidden />
-              {imagesEnabled ? "Elegir foto" : "Cloudinary no configurado"}
+              {imagesEnabled ? "Elegir foto" : "Imágenes no configuradas"}
             </>
           )}
           <input

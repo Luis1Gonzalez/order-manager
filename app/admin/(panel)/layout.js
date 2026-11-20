@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, LogOut } from "lucide-react";
+import { ExternalLink, FlaskConical, LogOut, RotateCcw } from "lucide-react";
 import { adminLogout } from "@/app/actions/auth";
+import { resetDemoAction } from "@/app/actions/admin";
 import { requireAdmin } from "@/lib/session";
+import { demoEnabled } from "@/lib/demo";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { ActionButton } from "@/components/admin/ActionButton";
 import { Button } from "@/components/ui";
 
 export const metadata = { title: { default: "Panel", template: "%s · Panel" } };
@@ -43,7 +46,27 @@ export default async function AdminPanelLayout({ children }) {
         </div>
       </aside>
 
-      <main className="min-w-0 px-4 py-6 sm:px-6 lg:px-10 lg:py-10">{children}</main>
+      <main className="min-w-0 px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
+        {demoEnabled && (
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-950 ring-1 ring-amber-200">
+            <p className="flex items-center gap-2">
+              <FlaskConical className="size-4 shrink-0" aria-hidden />
+              <span>
+                <strong>Modo demo.</strong> Prueba lo que quieras: los datos vuelven a su estado inicial cada noche.
+              </span>
+            </p>
+            <ActionButton
+              size="sm"
+              variant="secondary"
+              action={resetDemoAction}
+              confirm="¿Restablecer todos los datos de la demo a su estado inicial?"
+            >
+              <RotateCcw className="size-4" aria-hidden /> Restablecer ahora
+            </ActionButton>
+          </div>
+        )}
+        {children}
+      </main>
     </div>
   );
 }

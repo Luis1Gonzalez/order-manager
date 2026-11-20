@@ -5,6 +5,8 @@ import { ArrowRight, Clock, Mail, MapPin, Newspaper, Phone } from "lucide-react"
 import { prisma } from "@/lib/db";
 import { site } from "@/lib/site";
 import { getClientSession } from "@/lib/session";
+import { demoInfo } from "@/lib/demo";
+import { DemoBanner } from "@/components/site/DemoBanner";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { OrderCta } from "@/components/site/OrderCta";
@@ -25,12 +27,13 @@ export default async function HomePage() {
     </Link>
   ) : (
     <Suspense>
-      <OrderCta />
+      <OrderCta demo={demoInfo} />
     </Suspense>
   );
 
   return (
     <>
+      <DemoBanner demo={demoInfo} />
       <SiteHeader>
         {session ? (
           <Link href="/pedido" className={buttonClass({ size: "sm", variant: "secondary" })}>

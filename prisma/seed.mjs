@@ -1,36 +1,38 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { catalog } from "./catalog.mjs";
+import { DEMO_ADMIN, resetDemoData } from "./demo-data.mjs";
 
 const prisma = new PrismaClient();
 
-// Catálogo inicial (el que antes estaba fijo en el código). Se puede editar desde el panel.
-const catalog = {
-  Cerdo: ["Chuleta", "Manitas", "Morros"],
-  Pollo: ["Pechuga", "Alitas", "Muslos"],
-  Ternera: ["Bistec", "Chuletón", "Entraña"],
-  Cordero: ["Medallones", "Paletilla", "Costillas"],
-  Embutidos: ["Chorizos", "Longanizas", "Morcillas", "Madeja"],
-};
+async function upsertAdmin(username, password) {
+  const passwordHash = await bcrypt.hash(password, 12);
+  await prisma.admin.upsert({
+    where: { username },
+    update: { passwordHash },
+    create: { username, passwordHash },
+  });
+}
 
 async function main() {
-  const { ADMIN_USERNAME, ADMIN_PASSWORD } = process.env;
+  const { ADMIN_USERNAME, ADMIN_PASSWORD, DEMO_MODE } = process.env;
   if (!ADMIN_USERNAME || !ADMIN_PASSWORD || ADMIN_PASSWORD.length < 8) {
     throw new Error("Define ADMIN_USERNAME y ADMIN_PASSWORD (mínimo 8 caracteres) en .env");
   }
+  await upsertAdmin(ADMIN_USERNAME, ADMIN_PASSWORD);
 
-  await prisma.admin.upsert({
-    where: { username: ADMIN_USERNAME },
-    update: { passwordHash: await bcrypt.hash(ADMIN_PASSWORD, 12) },
-    create: { username: ADMIN_USERNAME, passwordHash: await bcrypt.hash(ADMIN_PASSWORD, 12) },
-  });
+  if (DEMO_MODE === "true") {
+    // Cuenta pública de prueba + datos de ejemplo
+    await upsertAdmin(DEMO_ADMIN.username, DEMO_ADMIN.password);
+    await resetDemoData(prisma);
+    console.log(`✔ Modo demo: admin "${ADMIN_USERNAME}", admin de prueba "${DEMO_ADMIN.username}" y datos de ejemplo listos`);
+    return;
+  }
 
+  // Modo normal: solo añade el catálogo inicial (no borra nada)
   let order = 0;
   for (const [name, products] of Object.entries(catalog)) {
-    const category = await prisma.category.upsert({
-      where: { name },
-      update: {},
-      create: { name, sortOrder: order++ },
-    });
+    const category = await prisma.category.upsert({ where: { name }, update: {}, create: { name, sortOrder: order++ } });
     for (const product of products) {
       await prisma.product.upsert({
         where: { categoryId_name: { categoryId: category.id, name: product } },
@@ -39,7 +41,6 @@ async function main() {
       });
     }
   }
-
   console.log(`✔ Admin "${ADMIN_USERNAME}" y catálogo inicial listos`);
 }
 

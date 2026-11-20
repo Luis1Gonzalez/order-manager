@@ -6,9 +6,24 @@ import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { categorySchema, clientSchema, postSchema, productSchema } from "@/lib/validations";
 import { fieldErrors } from "@/lib/utils";
-import { deleteImage, uploadImage } from "@/lib/cloudinary";
+import { deleteImage, uploadImage } from "@/lib/storage";
+import { DEMO_CLIENT_PHONE, demoEnabled, resetDemo } from "@/lib/demo";
 
 const isUniqueError = (e) => e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002";
+
+// En modo demo, el cliente de prueba no se puede borrar ni desactivar (si no, nadie más podría probar la web).
+const DEMO_PROTECTED = "Es el cliente de prueba de la demo: no se puede borrar ni desactivar.";
+const isDemoClient = (client) => demoEnabled && client?.phone === DEMO_CLIENT_PHONE;
+
+// ======================= Demo =======================
+
+export async function resetDemoAction() {
+  await requireAdmin();
+  if (!demoEnabled) return { error: "El modo demo no está activo" };
+  await resetDemo();
+  revalidatePath("/", "layout");
+  return { message: "Datos de la demo restablecidos" };
+}
 
 // ======================= Pedidos =======================
 
@@ -67,12 +82,16 @@ export async function toggleClientActive(id) {
   await requireAdmin();
   const client = await prisma.client.findUnique({ where: { id: Number(id) } });
   if (!client) return;
+  if (isDemoClient(client)) return { error: DEMO_PROTECTED };
   await prisma.client.update({ where: { id: client.id }, data: { active: !client.active } });
   revalidatePath("/admin/clientes");
 }
 
 export async function deleteClient(id) {
   await requireAdmin();
+  const client = await prisma.client.findUnique({ where: { id: Number(id) } });
+  if (!client) return;
+  if (isDemoClient(client)) return { error: DEMO_PROTECTED };
   const orders = await prisma.order.count({ where: { clientId: Number(id) } });
   if (orders > 0) {
     return { error: "Tiene pedidos registrados: desactívalo en lugar de borrarlo." };

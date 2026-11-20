@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getAdminSession } from "@/lib/session";
 import { site } from "@/lib/site";
+import { demoInfo } from "@/lib/demo";
 import { AdminLoginForm } from "./AdminLoginForm";
 
 export const metadata = { title: "Acceso administración" };
@@ -19,7 +20,7 @@ export default async function AdminLoginPage() {
           <p className="mt-1 text-sm text-ink-500">{site.name}</p>
         </div>
         <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-cream-200 sm:p-7">
-          <AdminLoginForm />
+          <AdminLoginForm demo={demoInfo} />
         </div>
         <p className="mt-6 text-center text-sm">
           <Link href="/" className="text-ink-500 hover:text-brand-700">
