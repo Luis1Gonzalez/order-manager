@@ -18,6 +18,30 @@ Web para que los clientes registrados encarguen carne por internet y la carnicer
 
 Los datos vuelven a su estado inicial cada noche. También puedes restablecerlos desde el panel con **Restablecer ahora**.
 
+## Guía para la carnicería: preparar pedidos
+
+**Entrar al panel.** Ve a `/admin`, o al enlace **🔒 Admin** del pie de la portada, e inicia sesión. La sesión dura 8 horas.
+
+**Ver los pedidos.** Al entrar llegas a **Pedidos**:
+- Arriba hay tres contadores: *Pendientes*, *Listos para retirar* y *Recibidos hoy*.
+- La lista **Activos** muestra primero los pedidos más antiguos, que son los que hay que preparar antes. El icono 💬 indica que el cliente dejó un comentario.
+- La página se actualiza sola cada 30 segundos. Puedes dejarla abierta en una tablet del mostrador.
+
+**Preparar un pedido.**
+1. Abre el pedido: verás quién lo recoge, su teléfono, el comentario y los productos con sus cantidades.
+2. Toca cada producto según lo prepares para marcarlo ✓. La barra verde muestra el progreso.
+3. Pulsa **Marcar como listo**. El cliente lo verá como *Listo para retirar*.
+4. Cuando lo recojan, pulsa **Marcar como entregado**.
+
+Desde el detalle también puedes **imprimir** el pedido, **cancelarlo** o **reabrirlo** si lo cerraste por error. En la lista principal tienes los botones rápidos **Marcar listo** y **Entregado**.
+
+**Otras secciones del panel:**
+- **Clientes:** da de alta a los clientes con su teléfono. Solo los clientes activos pueden pedir.
+- **Catálogo:** crea categorías y productos, y oculta un producto cuando no haya existencias.
+- **Publicaciones:** ofertas y novedades con foto, que aparecen en la portada.
+
+> En el móvil o la tablet, abre `/admin` y usa **Añadir a pantalla de inicio** para tener el panel como si fuera una app.
+
 ## Stack
 
 Next.js 15 (App Router, Server Actions) · React 19 · Tailwind CSS 4 · Prisma 6 + PostgreSQL (Supabase) · Supabase Storage · Zod · sesiones JWT en cookie httpOnly (`jose`) · contraseñas con `bcryptjs` · Netlify.
