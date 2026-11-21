@@ -193,7 +193,7 @@ export default async function HomePage() {
               </div>
             </div>
             <figure className="flex flex-col items-center gap-3 self-center rounded-3xl bg-white p-5 text-ink-700">
-              <Image src="/img/qr.jpeg" alt="Código QR para abrir esta web en el móvil" width={160} height={160} />
+              <Image src="/img/qr.png" alt="Código QR para abrir esta web en el móvil" width={160} height={160} />
               <figcaption className="text-sm">Escanéalo para pedir desde el móvil</figcaption>
             </figure>
           </div>

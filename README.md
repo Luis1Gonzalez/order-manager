@@ -9,6 +9,8 @@ Web para que los clientes registrados encarguen carne por internet y la carnicer
 
 ## Probar la demo
 
+**🔗 [pedidos-carniceria.netlify.app](https://pedidos-carniceria.netlify.app/)**
+
 | Rol | Acceso |
 |---|---|
 | Cliente | Teléfono `600 000 000` y cualquier nombre |
